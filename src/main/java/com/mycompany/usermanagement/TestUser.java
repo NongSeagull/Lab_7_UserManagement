@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.usermanagement;
 
 import java.util.ArrayList;
@@ -23,24 +19,35 @@ public class TestUser {
         userList.add(user2);
 
         int i;
-        System.out.println("All User");
+        System.out.println("--- Print all user ---");
         for (i = 0; i < userList.size(); i++) {
             System.out.println(userList.get(i));
             System.out.println("--------------------------");
         }
-
+        System.out.println("--- print remove userList at index 0 (admin info are gone) ---");
         userList.remove(0);
-        System.out.println("All User");
+        for (i = 0; i < userList.size(); i++) {
+            System.out.println(userList.get(i));
+            System.out.println("--------------------------");
+        }
+        System.out.println("--- print set userList at index 0 to admin ---");
+        userList.set(0, admin);
         for (i = 0; i < userList.size(); i++) {
             System.out.println(userList.get(i));
             System.out.println("--------------------------");
         }
 
-        userList.set(0, admin);
-        System.out.println("All User");
-        for (i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i));
-            System.out.println("--------------------------");
-        }
+        System.out.println("--- print UserService ---");
+        UserService.addUser(admin);
+        UserService.addUser(user1);
+        UserService.addUser(user2);
+        UserService.printList();
+        
+        System.out.println("--- print get user by ID ---");
+        System.out.println(UserService.getUserByID(3));
+        
+        System.out.println("--- print delete user by ID ---");
+        UserService.deleteUser(1);
+        UserService.printList();
     }
 }

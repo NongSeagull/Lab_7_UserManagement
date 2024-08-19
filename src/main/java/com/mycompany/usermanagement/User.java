@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.usermanagement;
 
 import java.io.Serializable;
@@ -88,11 +84,11 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [ id : " + id + " ]"
-                + "\nlogin : " + login
-                + "\nname : " + name
-                + "\npassword : " + password
-                + "\ngender : " + gender
-                + "\nrole : " + role;
+        return "User {[ id : " + id + " ]  -->"
+                + "  username : " + login
+                + ",  name : " + name
+                + ",  password : " + password
+                + ",  gender : " + gender
+                + ",  role : " + role + " }";
     }
 }

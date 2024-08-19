@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.usermanagement;
 
 import java.util.ArrayList;
@@ -12,39 +8,52 @@ import java.util.ArrayList;
  */
 public class UserService {
 
-    ArrayList<User> userList = new ArrayList<>();
-    int lastID = 1;
+    private static ArrayList<User> userList = new ArrayList<>();
+    private static int lastID = 1;
 
     public UserService() {
     }
 
-    public User addUser(User newUser) {
-        this.userList.add(newUser);
+    public static User addUser(User newUser) {
+        newUser.setID(lastID += 1);
+        userList.add(newUser);
         return newUser;
     }
 
-    public ArrayList<User> getUsers() {
-        return userList;
+    public static ArrayList<User> getUsers() {
+        return UserService.userList;
     }
 
-    public User getUser(int index) {
-        return this.userList.get(index);
+    public static User getUser(int index) {
+        return UserService.userList.get(index);
     }
 
-    public User getUserByID(int id) {
-        return this.userList.get(id);
-    }
-
-    public int getSize() {
-        return 0;
-    }
-
-    public User updateUser(int index, User user) {
-        this.userList.add(index, user);
+    public static User getUserByID(int id) {
+        for (User user : userList) {
+            if (user.getID() == id) {
+                return user;
+            }
+        }
         return null;
     }
 
-    public User deleteUser(int index) {
-        return null;
+    public static int getSize() {
+        return userList.size();
+    }
+
+    public static User updateUser(int index, User user) {
+        UserService.userList.set(index, user);
+        return user;
+    }
+
+    public static User deleteUser(int index) {
+        return userList.remove(index);
+    }
+
+    public static void printList() {
+        ArrayList<User> list = UserService.getUsers();
+        for (User user : list) {
+            System.out.println(user);
+        }
     }
 }
