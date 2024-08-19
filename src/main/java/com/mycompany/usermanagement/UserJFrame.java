@@ -24,6 +24,7 @@ public class UserJFrame extends javax.swing.JFrame {
     }
 
     public void load() {
+        UserService.readFile();
         model = new AbstractTableModel() {
             @Override
             public String getColumnName(int column) {
@@ -425,6 +426,7 @@ public class UserJFrame extends javax.swing.JFrame {
         model.fireTableDataChanged();
         clearForm();
         enableForm(false);
+        UserService.writeFile();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -480,6 +482,7 @@ public class UserJFrame extends javax.swing.JFrame {
         index = tblUser.getSelectedRow();
         UserService.deleteUser(index);
         model.fireTableDataChanged();
+        UserService.writeFile();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void clearForm() {

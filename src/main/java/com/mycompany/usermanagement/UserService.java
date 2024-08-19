@@ -1,5 +1,12 @@
 package com.mycompany.usermanagement;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -61,6 +68,54 @@ public class UserService {
         ArrayList<User> list = UserService.getUsers();
         for (User user : list) {
             System.out.println(user);
+        }
+    }
+
+    public static void writeFile() {
+        FileOutputStream fos = null;
+        try {
+            File file = new File("users.dat");
+            fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(userList);
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Write User : File Not Found.");
+        } catch (IOException ex) {
+            System.out.println("Write User : I/O error.");
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException ex) {
+                System.out.println("Write User (Finally) : I/O error.");
+            }
+        }
+    }
+
+    public static void readFile() {
+        FileInputStream fis = null;
+        try {
+            File file = new File("users.dat");
+            fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userList = (ArrayList<User>) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("read User : File Not Found.");
+        } catch (IOException ex) {
+            System.out.println("read User : I/O error.");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("read User : Class Not Found.");
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException ex) {
+                System.out.println("read User (Finally) : I/O error.");
+            }
         }
     }
 }
