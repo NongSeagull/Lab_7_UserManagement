@@ -71,7 +71,7 @@ public class UserJFrame extends javax.swing.JFrame {
                             return "User";
                         }
                     case 4:
-                        if (user.getRole() == 'M') {
+                        if (user.getGender()== 'M') {
                             return "Male";
                         } else {
                             return "Female";
