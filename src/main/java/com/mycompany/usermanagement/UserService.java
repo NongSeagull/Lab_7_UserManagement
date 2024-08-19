@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public static User addUser(User newUser) {
-        newUser.setID(lastID += 1);
+        newUser.setID(lastID++);
         userList.add(newUser);
         return newUser;
     }
@@ -49,7 +49,7 @@ public class UserService {
     }
 
     public static User updateUser(int index, User user) {
-        UserService.userList.set(index, user);
+        userList.set(index, user);
         return user;
     }
 

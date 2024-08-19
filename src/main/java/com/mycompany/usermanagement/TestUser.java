@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author 65160230 Piyapong
  */
 public class TestUser {
-
+/*
     public static void main(String[] args) {
         User admin = new User(1, "admin", "Administrator", "pass@1234", 'M', 'A');
         User user1 = new User(2, "user1", "User 1", "pass@1234", 'F', 'U');
@@ -50,4 +50,5 @@ public class TestUser {
         UserService.deleteUser(1);
         UserService.printList();
     }
+*/
 }

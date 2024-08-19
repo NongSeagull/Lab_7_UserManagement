@@ -12,6 +12,9 @@ import javax.swing.table.AbstractTableModel;
  */
 public class UserJFrame extends javax.swing.JFrame {
 
+    private int index = -1;
+    private AbstractTableModel model;
+
     /**
      * Creates new form UserJFrame
      */
@@ -21,7 +24,7 @@ public class UserJFrame extends javax.swing.JFrame {
     }
 
     public void load() {
-        tblUser.setModel(new AbstractTableModel() {
+        model = new AbstractTableModel() {
             @Override
             public String getColumnName(int column) {
                 switch (column) {
@@ -76,8 +79,9 @@ public class UserJFrame extends javax.swing.JFrame {
                         return " ";
                 }
             }
-        });
-
+        };
+        tblUser.setModel(model);
+        enableForm(false);
     }
 
     /**
@@ -202,6 +206,11 @@ public class UserJFrame extends javax.swing.JFrame {
         btnClear.setFont(new java.awt.Font("SF Thonburi", 0, 14)); // NOI18N
         btnClear.setForeground(new java.awt.Color(30, 86, 160));
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelOfInfoLayout = new javax.swing.GroupLayout(panelOfInfo);
         panelOfInfo.setLayout(panelOfInfoLayout);
@@ -312,16 +321,31 @@ public class UserJFrame extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("SF Thonburi", 0, 14)); // NOI18N
         btnAdd.setForeground(new java.awt.Color(30, 86, 160));
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnEdit.setBackground(new java.awt.Color(246, 246, 246));
         btnEdit.setFont(new java.awt.Font("SF Thonburi", 0, 14)); // NOI18N
         btnEdit.setForeground(new java.awt.Color(30, 86, 160));
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(246, 246, 246));
         btnDelete.setFont(new java.awt.Font("SF Thonburi", 0, 14)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(30, 86, 160));
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelOfInteractionLayout = new javax.swing.GroupLayout(panelOfInteraction);
         panelOfInteraction.setLayout(panelOfInteractionLayout);
@@ -390,8 +414,87 @@ public class UserJFrame extends javax.swing.JFrame {
         String role = (String) comboRole.getSelectedItem();
         char subRole = role.charAt(0);
 
-        User user = new User(-1, username, name, password, subGender, subRole);
+        if (index == -1) {
+            User user = new User(-1, username, name, password, subGender, subRole);
+            UserService.addUser(user);
+        } else {
+            int ID = UserService.getUser(index).getID();
+            User user = new User(ID, username, name, password, subGender, subRole);
+            UserService.updateUser(index, user);
+        }
+        model.fireTableDataChanged();
+        clearForm();
+        enableForm(false);
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearForm();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        index = tblUser.getSelectedRow();
+        fillForm();
+        editUsername.requestFocus();
+        enableForm(true);
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    public void fillForm() {
+        User editUser = UserService.getUser(index);
+        editUsername.setText(editUser.getUsername());
+        editName.setText(editUser.getName());
+        editPassword.setText(editUser.getPassword());
+
+        if (editUser.getGender() == 'M') {
+            radioMale.setSelected(true);
+        } else {
+            radioFemale.setSelected(true);
+        }
+
+        if (editUser.getRole() == 'A') {
+            comboRole.setSelectedIndex(0);
+        } else {
+            comboRole.setSelectedIndex(1);
+        }
+        lbl_ID.setText("ID : " + editUser.getID());
+    }
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        index = -1;
+        editUsername.requestFocus();
+        enableForm(true);
+
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    public void enableForm(boolean status) {
+        editUsername.setEditable(status);
+        editName.setEditable(status);
+        editPassword.setEnabled(status);
+        radioMale.setEnabled(status);
+        radioFemale.setEnabled(status);
+        comboRole.setEnabled(status);
+        btnSave.setEnabled(status);
+        btnClear.setEnabled(status);
+    }
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        index = tblUser.getSelectedRow();
+        UserService.deleteUser(index);
+        model.fireTableDataChanged();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void clearForm() {
+        if (index == -1) {
+            editUsername.setText("");
+            editName.setText("");
+            editPassword.setText("");
+            comboRole.setSelectedIndex(1);
+            radioMale.setSelected(true);
+            editUsername.requestFocus();
+        } else {
+            fillForm();
+            editUsername.requestFocus();
+        }
+    }
 
     /**
      * @param args the command line arguments
