@@ -11,7 +11,14 @@ public class UserService {
     private static ArrayList<User> userList = new ArrayList<>();
     private static int lastID = 1;
 
-    public UserService() {
+    static {
+        User admin = new User(1, "admin", "Administrator", "pass@1234", 'M', 'A');
+        User user1 = new User(2, "user1", "User 1", "pass@1234", 'F', 'U');
+        User user2 = new User(3, "user2", "User 2", "pass@1234", 'M', 'U');
+
+        addUser(admin);
+        addUser(user1);
+        addUser(user2);
     }
 
     public static User addUser(User newUser) {

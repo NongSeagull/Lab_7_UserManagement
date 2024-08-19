@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class User implements Serializable {
 
     private int id;
-    private String login;
+    private String username;
     private String name;
     private String password;
     private char gender;
@@ -18,7 +18,7 @@ public class User implements Serializable {
 
     public User() {
         this.id = 0;
-        this.login = null;
+        this.username = null;
         this.name = null;
         this.password = null;
         this.gender = '-';
@@ -27,7 +27,7 @@ public class User implements Serializable {
 
     public User(int id, String login, String name, String password, char gender, char role) {
         this.id = id;
-        this.login = login;
+        this.username = login;
         this.name = name;
         this.password = password;
         this.gender = gender;
@@ -42,12 +42,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.username = login;
     }
 
     public String getName() {
@@ -85,7 +85,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User {[ id : " + id + " ]  -->"
-                + "  username : " + login
+                + "  username : " + username
                 + ",  name : " + name
                 + ",  password : " + password
                 + ",  gender : " + gender

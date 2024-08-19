@@ -4,6 +4,8 @@
  */
 package com.mycompany.usermanagement;
 
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author tsuna
@@ -15,6 +17,67 @@ public class UserJFrame extends javax.swing.JFrame {
      */
     public UserJFrame() {
         initComponents();
+        load();
+    }
+
+    public void load() {
+        tblUser.setModel(new AbstractTableModel() {
+            @Override
+            public String getColumnName(int column) {
+                switch (column) {
+                    case 0:
+                        return "ID";
+                    case 1:
+                        return "Username";
+                    case 2:
+                        return "Name";
+                    case 3:
+                        return "Role";
+                    case 4:
+                        return "Gender";
+                    default:
+                        return " ";
+                }
+            }
+
+            @Override
+            public int getRowCount() {
+                return UserService.getSize();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return 5;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                User user = UserService.getUser(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return user.getID();
+                    case 1:
+                        return user.getUsername();
+                    case 2:
+                        return user.getName();
+                    case 3:
+                        if (user.getRole() == 'A') {
+                            return "Admin";
+                        } else {
+                            return "User";
+                        }
+                    case 4:
+                        if (user.getRole() == 'M') {
+                            return "Male";
+                        } else {
+                            return "Female";
+                        }
+                    default:
+                        return " ";
+                }
+            }
+        });
+
     }
 
     /**
@@ -211,6 +274,7 @@ public class UserJFrame extends javax.swing.JFrame {
         panelOfTable.setBackground(new java.awt.Color(30, 86, 160));
 
         tblUser.setBackground(new java.awt.Color(214, 228, 240));
+        tblUser.setFont(new java.awt.Font("SF Thonburi", 0, 14)); // NOI18N
         tblUser.setForeground(new java.awt.Color(22, 49, 114));
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
